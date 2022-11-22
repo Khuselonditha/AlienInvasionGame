@@ -5,3 +5,35 @@ The player shoots and destroys the aliens.
 If the player shoots all the aliens, a new fleet appears and moves faster than the previous fleet.
 If any alien hits the player or reaches the bottom of the screen, the player losses a ship.
 If a player losse three ships, the game ends.
+
+SUMMARY 1.
+
+1. alien_invasion.py 
+#-- The main file, contains the AlienInvasion class
+#-- the class creates a number of attributes used throughout the game:
+    i. the settings are assigned to settings attribute
+    ii. the main display surface is assigned to screen
+    iii. the ship instance is created also.
+#-- The main loop of the game run_game() function, a while loop that calls _check_events(),
+ship.update(), and update_screen().
+
+#-- The _check_events() method checks for events such as keypresses or key releases and processes these
+events on the _check_keydown_events() or _check_keyup_events() methods.
+For now  these events mananges the ships movement.
+#-- The AlienInvasion class also contains the update_screen() method, which redraws the screen on each
+pass through the main loop.
+#-- The alien_invasion.py file is the only file you need to run to play the game. the other files:
+setings.py and ship.py are imported to this file.
+
+
+2. settings.py
+#-- The setings.py contains the settings class. 
+#-- This class only an __ini__() method which initializes the attributes that controlling the game's
+appearance and ships speed.
+
+
+3. ship.py
+#-- The ship.py file contains the Ship class.
+#-- The Ship class has an __init__() method, an update() method to manage the ships position  and a
+blitme() method to draw the ship onto the screen.
+#-- The image of the ship is stored in ship.bmp, which is in the images folder.
