@@ -17,14 +17,12 @@ class AlienInvasion:
 
         self.ship = Ship(self)
 
-        # Set background colour
-        self.bg_colour = (230, 230, 230)
-
 
     def run_game(self):
         """Start main loop for the game."""
         while True:
             self._check_events()
+            self.ship.update()
             self._update_screen()
 
            
@@ -33,6 +31,37 @@ class AlienInvasion:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                self._check_keydown_events(event)
+            elif event.type == pygame.KEYUP:
+                self._check_keyup_events(event)
+    
+
+    def _check_keydown_events(self, event):
+        """Respond t keypresses"""
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = True
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left  = True
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up  = True
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down  = True
+        elif event.key == pygame.K_q:
+            sys.exit()
+                
+
+    def _check_keyup_events(self, event):
+        """Respond to key realeases"""
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = False
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = False
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up = False
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = False
+
 
     def _update_screen(self):
         """Redraw the screen during each pass through loop."""
@@ -126,5 +155,44 @@ if __name__ == "__main__":
 #-- Now the body of the main loop run_game() is much simpler.
 #-- Its easier to see that we are looking for new events and updating the screen on each each pass though 
 # the loop.
- 
+"""
+
+"""
+# RESPONDING TO PRESSED KEY
+
+#-- Inside the _check_events() method we add an elif block to the vent loop to respond when Pygame
+# detects a KEYDOWN event.
+#-- We then check if the wehether the key pressed is the right arrow, event.key
+#-- The right key is represented by pygame.K_RIGHT. 
+#-- If the right key is pressed move the ship to the right by increasing the value of 
+# self.ship.rect.x by 1
+"""
+
+"""
+# ALLOWING CONTINOUOS MOVEMENT
+#-- We first modify how the game responds when the player presses the right arrow, insatead of directly
+# changing the position of the ship, we merely just set self.moving_right to True.
+#-- WE then add an elif block with responds to the KEYUP event. 
+#-- When the player releases the right,left, up down arrow, we set self.Moving_right to False.
+
+#-- THe ships position will then be updated after we've checked for keyboard events and before we
+# update the screen
+#-- This allows the ship's position to be updated in response to the player input and ensure the
+# updated position will be used when ddrawing the ship on the screen.
+"""
+
+"""
+# REFRACTORING _check_events()
+
+#-- We first make two helper methods: _check_keydown_events() and _check_keyup_events()
+#-- Each needs a parameter self, and an event parameter.
+#-- The _check_events() method now checks for keypress and a keydown event and calls one of our new
+# helper methods with moves the ship.
+"""
+
+"""
+# PRESSING Q TO QUIT
+
+#-- In the _check_keydown_events() method we add a new block that ends the game when the player presses
+# Q.
 """

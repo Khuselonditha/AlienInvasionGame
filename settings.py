@@ -8,7 +8,8 @@ class Settings:
         self.screen_height = 700
         self.bg_colour = (230, 230, 230)
 
-
+        # Ship settings
+        self.ship_speed = 1.5
 
 
 
@@ -30,4 +31,15 @@ class Settings:
 #-- When we create the screen, we use the screen_width and screen_height attributes of self.settings.
 #-- And then we use the self.settings to access background colour when filling the screen after a loop.
 
+"""
+
+"""
+# ADJUSTING THE SHIP'S SPEED
+
+#-- We set the initial value of ship_speed to 1.5.
+#-- When the ship moves now, its position is now adjusted by 1.5 pixels, instead of 1 on each pass 
+# of the loop.
+#-- We are using decimals values for the speed to give us finer coontrol of the ship for when we icrease
+# the tempo of the game later on.
+#-- The rect.x are in interger values not float. we need to change that.
 """
