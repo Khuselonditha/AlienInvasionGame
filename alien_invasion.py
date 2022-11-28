@@ -2,6 +2,7 @@ import sys
 import pygame
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 class AlienInvasion:
     """Overall class to manange the game assets and behaviour"""
@@ -17,12 +18,15 @@ class AlienInvasion:
 
         self.ship = Ship(self)
 
+        self.bullets = pygame.sprite.Group()
+
 
     def run_game(self):
         """Start main loop for the game."""
         while True:
             self._check_events()
             self.ship.update()
+            self._update_bullets()
             self._update_screen()
 
            
@@ -49,6 +53,8 @@ class AlienInvasion:
             self.ship.moving_down  = True
         elif event.key == pygame.K_q:
             sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
                 
 
     def _check_keyup_events(self, event):
@@ -63,10 +69,30 @@ class AlienInvasion:
             self.ship.moving_down = False
 
 
+    def _fire_bullet(self):
+        """Create a new bullet and add it to the bullets group."""
+        if len(self.bullets) < self.settings.bullets_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
+
+
+    def _update_bullets(self):
+        """Update the position of bullets and get rid of old bullets."""
+        # Update bullet position
+        self.bullets.update()
+
+        # Get rid of bullets that have disappered
+        for bullet in self.bullets.copy():
+                if bullet.rect. bottom <= 0:
+                    self.bullets.remove(bullet)
+
+
     def _update_screen(self):
-        """Redraw the screen during each pass through loop."""
+        """Update images o the screen ad flip to the new screen."""
         self.screen.fill(self.settings.bg_colour)
         self.ship.blitme()
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
 
         # Make the most recently drawn screen visible.
         pygame.display.flip()
@@ -195,4 +221,66 @@ if __name__ == "__main__":
 
 #-- In the _check_keydown_events() method we add a new block that ends the game when the player presses
 # Q.
+"""
+
+"""
+# STORING BULLETS IN A GROUP
+
+#-- We create the group to store all the live bullets so we can manage the bullets that have already
+# been fired.
+#-- This group is an instance of the pygame.sprite.Group class which behaves like a list with some 
+# extra functionality that is helpful when building games
+# we use this group to draw the bullets into the screen on each passthrough the main loop and update
+# each bullet's position.
+
+#-- When you call Update() on a group, the group automatically calls update on each sprite in the
+# group.
+#-- The line self.bullets.update() calls bullets.update() for each bullet we place in the group bullets
+"""
+
+"""
+# FIRING BULLETS
+
+#-- First we import Bullet class
+#-- Then we call _fire_bullet() when spacebar is pressed.
+#-- In the _fire_bullet(), we create a new instance of Bullet and call it new_bullet. We then add it
+# to the group of bullets using the add() method.
+#-- The add() method is similar to the append() method, but its method is written specifically for
+# pygame groups
+#-- The bullet.sprites() method returns a list of all sprites in the group of bullets
+#-- To draw all the bullets fired to the screen, we loop through the sprites in bullets and call
+# draw_bullet() on each one. 
+"""
+
+"""
+# DELETING OLD BULLETS
+
+#-- When you use a for loop with a list (or group in Pygame), Pyton expects that list to stay the 
+# same length as long as the loop is running.
+#-- Since we can't remove items from a list or a group within a for loop, we have to loop over a 
+# copy of the group.
+#-- We use a copy() to set up the for loop, which enaables us to modify the bullets inside the loop.
+#-- We then check each bullet to see if it has dissapeared off the top of the screen.
+#-- And if it has we remove it from bullets (the group) 
+"""
+
+"""
+# LIMITING NUMBER OF BULLETS
+
+#-- Now when the player presses the spacebar, we first check the lenght(number) of the bullets.
+#-- If len(self.bullets) is less than 5, we create or can shoot a new bullet.
+#-- But if 5 bullets already exist, nothing will happen when spacebar is pressed.
+"""
+
+"""
+# CREATING THE _update_bullets() METHOD
+
+#-- We create a new method called _update_bullets() and call the method in the _run_game() just after
+# the _update screen()
+#-- The code for _update_bullets() is cut and pasted from the run_game(), all we've done is clarify the
+# comments.
+#-- The while loop in run_game() looks simple again.
+
+#-- Now the main loop in run_game() checks for player input, and then updates the position of the ship
+# and any bullets fired. Then we use the updated positions to draw a new screen.
 """

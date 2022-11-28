@@ -11,6 +11,13 @@ class Settings:
         # Ship settings
         self.ship_speed = 1.5
 
+        # Bullet settings
+        self.bullet_speed = 1.0
+        self.bullet_width = 3
+        self.bullet_height = 15
+        self.bullet_colour = (60, 60, 60)
+        self.bullets_allowed = 5
+
 
 
 
@@ -42,4 +49,18 @@ class Settings:
 #-- We are using decimals values for the speed to give us finer coontrol of the ship for when we icrease
 # the tempo of the game later on.
 #-- The rect.x are in interger values not float. we need to change that.
+"""
+
+"""
+# ADDING THE BULLET SETTINGS
+
+#-- These settings create dark grey bullets with a width of 3 pixels and a height of 15 pixels.
+#-- The bullets will travels much slower than the ship
+"""
+
+"""
+# LIMITING NUMBER OF BULLETS
+
+#-- We limit the number of bullets fire to 5. Then we'll use this setting in AlienInvasion to check
+# how may bullets exist before creating a new bullet in _fire_bullet() 
 """
