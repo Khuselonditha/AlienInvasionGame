@@ -18,6 +18,12 @@ class Settings:
         self.bullet_colour = (60, 60, 60)
         self.bullets_allowed = 5
 
+        # Alien Settings
+        self.alien_speed = 1.0
+        self.fleet_drop_speed = 10
+        # fleet_direction of 1 represents right; -1 represents left
+        self.fleet_direction = 1
+
 
 
 
@@ -63,4 +69,22 @@ class Settings:
 
 #-- We limit the number of bullets fire to 5. Then we'll use this setting in AlienInvasion to check
 # how may bullets exist before creating a new bullet in _fire_bullet() 
+"""
+
+"""
+# MOVING ALIENS TO THE RIGHT
+
+#-- First, we add settings to control the speed of each alien.
+# Then we'll use an update() method in alien.py to move the aliens.
+"""
+
+"""
+# CREATING SETTINGS FOR FLEET DIRECTION
+
+#-- The setting fleet_drop_speed controls how quickly the fleet drops down the screen each time an
+# alien reaches either edge
+#-- To implement the setting fleet_direction, we use values 1 and -1 and switch between them as the 
+# fleet changes direction.
+#-- Moving to the right adds to each alien's x-coordinate value, and moving to the left involves
+# subtracting from each aliens x-coordinate value.
 """
