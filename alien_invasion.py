@@ -89,6 +89,20 @@ class AlienInvasion:
         for bullet in self.bullets.copy():
                 if bullet.rect. bottom <= 0:
                     self.bullets.remove(bullet)
+        
+        self._check_bullets_aliens_collisions()
+
+    
+    def _check_bullets_aliens_collisions(self):
+        """Respond to bullet-alien collisions."""
+        # Remove any bullets and aliens that have collided.
+        collisions = pygame.sprite.groupcollide(
+                self.bullets, self.aliens, True, True)
+                
+        if not self.aliens:
+            # Destroy existing bullets and create new alien fleet.
+            self.bullets.empty()
+            self._create_fleet()
 
 
     def _create_fleet(self):
@@ -470,4 +484,37 @@ down.
 
 #-- We then modify the the _update_aliens() method by calling _check_fleet_edges() before updating
 # each alien's position.
+"""
+
+"""
+ SHOOTING ALIENS
+
+# DETECTING BULLET COLLISIONS
+
+#-- The new code we added compares the position of all the bullets in self.bullets and all the aliens
+# in self.aliens, and identifies any that overlap.
+#-- Whenever the rect of a bullet and alien overlap, groupcollide() adds a key_value pair to the
+# dictionary it returns.
+#-- The two True arguments tell pygame to delete the bullets and aliens that have collided.
+
+NB. To create a super bullet that can destroy all the aliens it collides with until it reaches the
+#   top of the screen, set the first boolean to False and keep the second one as True.
+"""
+
+"""
+# REPOPULATING THE FLEET
+
+#-- We first check whether the aliens group is empty. An empty group evaluates to False, a simple way
+# to check whether the group is empty.
+#-- If it is we get rid of any existig bullets using the empty() method, whic removes all the remaining
+# sprites of a group.
+#-- we also call _create_fleet(), which fills the screen with aliens again.
+"""
+
+"""
+# REFRACTORING _Update_bullets()
+
+#-- The code that deals with bullets and alien collisions was moved to the _check_bullet_alien_collision()
+# method.
+#-- This keeps the _update_bullets() method from being too long and simplified.
 """
