@@ -44,9 +44,12 @@ class Ship:
         self.rect.y = self.y
 
 
+    def center_ship(self):
+        """Center the ship on the screen."""
+        self.rect.midbottom = self.screen_rect.midbottom
+        self.x = float(self.rect.x)
 
-        
-    
+
     def blitme(self):
         """Draw the ship at its current location."""
         self.screen.blit(self.image, self.rect)
@@ -114,4 +117,11 @@ class Ship:
 #-- Same for the self.rect.bottom of the ship, if its value is less than the screen_rect.bottom, it is
 # in bound to change the self.y of the ship and hasnt reached the edge of the screen.
 # This ensures that the ship is within bounds before adjusting the self.x and self.y values.
+"""
+
+"""
+# RESPONDING TO ALIEN AND SHIP COLLISION
+
+# We center the ship the same way we did in __init__()
+# After centering it we reset the self.x attribute to track the exact position of the ship
 """

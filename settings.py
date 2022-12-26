@@ -10,6 +10,7 @@ class Settings:
 
         # Ship settings
         self.ship_speed = 1.5
+        self.ship_limit = 3
 
         # Bullet settings
         self.bullet_speed = 1.5
@@ -87,4 +88,11 @@ class Settings:
 # fleet changes direction.
 #-- Moving to the right adds to each alien's x-coordinate value, and moving to the left involves
 # subtracting from each aliens x-coordinate value.
+"""
+
+"""
+# RESPONDING TO ALIEN AND SHIP COLISIONS
+
+#-- The number of ships a player gets everytime the game is run or reset  is store in self.ship_limit
+with a value of 3.
 """

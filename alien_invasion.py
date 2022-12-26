@@ -1,6 +1,8 @@
 import sys
+from time import sleep
 import pygame
 from settings import Settings
+from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -16,6 +18,9 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode((
             self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
+
+        # Create an instance to store the games statistics
+        self.stats = GameStats(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -105,6 +110,24 @@ class AlienInvasion:
             self._create_fleet()
 
 
+    def _ship_hit(self):
+        """Respond to the ship being hit by an alien."""
+
+        # Decrease the number of ships left.
+        self.stats.ships_left -= 1
+
+        # Get rid of any remaining aliens ans bullets.
+        self.aliens.empty()
+        self.bullets.empty()
+
+        # Create a new fleet and center the ship.
+        self._create_fleet()
+        self.ship.center_ship()
+
+        # Pause
+        sleep(1)
+
+
     def _create_fleet(self):
         """Create a fleet of aliens."""
         # Make an alien and find the number of aliens in a row
@@ -157,6 +180,10 @@ class AlienInvasion:
         then update the position of all the aliens in the fleet."""
         self._check_fleet_edges()
         self.aliens.update()
+
+        # Look for alien-ship collisions.
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
 
         
     def _update_screen(self):
@@ -517,4 +544,35 @@ NB. To create a super bullet that can destroy all the aliens it collides with un
 #-- The code that deals with bullets and alien collisions was moved to the _check_bullet_alien_collision()
 # method.
 #-- This keeps the _update_bullets() method from being too long and simplified.
+"""
+
+"""
+    ENDING THE GAME
+
+# DETECTING ALIEN AND SHIP COLLISION
+
+#-- The spritecollideany() function takes two argumets: a sprite and a group. The function looks at
+# any member of the group that has collided with a sprite and stops loopping at the group.
+#-- Here it loops through the group aliens and and returns the alien that has collided with the ship.
+
+#-- If no collsions occur, spritecolideany() returns None, and the if block wont be executed.
+#--If collision occurs it returns the alien and the if block is executed and prints "Ship hit!!!"
+#-- When the ship is hit we'll need to do a number of things/tasks: 1.we'll need to delete all the 
+# remaining aliens and bullets, recenter the ship and create a new fleet of aliens.
+#-- Now whe you run the program, the message, "ship hit!!" wil appear in the terminal when an alien
+# collides with the ship.
+
+#-- We then import the sleep() function from the time module so we can pause the game when the ship is hit.
+# And also import Gamestats and create an instance of GameStats in __init__().
+
+#-- We Then create a new method _ship_hit() which runs when the ship is hit.
+#-- Inside the _ship_hit() we decrease the number of ships left by 1, then we empty the group of
+# aliens and bullets
+#-- Next we create a new fleet and center the ship. 
+# Then we pause the game for 0.5s to update the game elements but before the updates are drawn to 
+# the screen, so that the player can see that the ship has been hit.
+# The sleep() function pauses the game so the player can see that the ship has been hit.
+
+#-- In _update_aliens(), we replace the print() call with a call to _ship_hit() when an alien hits
+# the ship   
 """
