@@ -128,6 +128,16 @@ class AlienInvasion:
         sleep(1)
 
 
+    def _check_aliens_bottom(self):
+        """Check if any aliens have reached the bottom of the screen."""
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                # Treat this the same as if the ship got hit
+                self._ship_hit()
+                break
+
+
     def _create_fleet(self):
         """Create a fleet of aliens."""
         # Make an alien and find the number of aliens in a row
@@ -184,6 +194,9 @@ class AlienInvasion:
         # Look for alien-ship collisions.
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
+
+        # Look for aliens hitting the bottom of the screen
+        self._check_aliens_bottom()
 
         
     def _update_screen(self):
@@ -575,4 +588,16 @@ NB. To create a super bullet that can destroy all the aliens it collides with un
 
 #-- In _update_aliens(), we replace the print() call with a call to _ship_hit() when an alien hits
 # the ship   
+"""
+
+"""
+# ALIENS THAT REACH THE BOTTOM OF THE SCREEN
+
+#-- We create a method _check_aliens_bottom() to check whether any aliens have reached the bottom of
+# the screen.
+#-- An aliens has reached the bottom of the screen when its rect.bottom is greater or equals to the
+# screen's rect bottom attribute.
+#-- If an alien reaches the bottom, we call _ship_hit() method.
+# If one alien has reached the bottom of the screen, there's no need to check the rest, so we break 
+# out of the loop after calling _ship_hit()
 """
